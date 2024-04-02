@@ -12,6 +12,10 @@ python-dotenv = "^1.0.1"
 deprecated = "^1.2.14"
 
 
+[tool.poetry.group.dev.dependencies]
+flake8 = "^7.0.0"
+black = "^24.3.0"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
