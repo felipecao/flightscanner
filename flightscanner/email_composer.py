@@ -9,7 +9,7 @@ class EmailComposer:
 
     def write_table(self, flights: list[CompleteFlight]) -> str:
         flights = self._sort_flights(flights)
-        return "".join([self._write_one_table(f) for f in flights])
+        return self.TABLE_OPEN + "".join([self._write_one_row(f) for f in flights]) + self.TABLE_CLOSE
 
     @staticmethod
     def _sort_flights(flights: list[CompleteFlight]) -> list[CompleteFlight]:
@@ -17,26 +17,15 @@ class EmailComposer:
             flights, key=lambda flight: (len(flight.route), -flight.total_nights)
         )
 
-    def _write_one_table(self, flight: CompleteFlight) -> str:
+    def _write_one_row(self, flight: CompleteFlight) -> str:
         return """
-        <table border="1px solid black" style="border-collapse: collapse">
-            <tr>
-                <td><strong>Origin: </strong></td>
-                <td>{origin_airport}</td>
-                <td><strong>Destination: </strong></td>
-                <td>{destination_airport}</td>
-                <td><strong>Price: </strong></td>
-                <td>{price}</td>
-                <td><strong>Nights: </strong></td>
-                <td>{total_nights}</td>
-            </tr>
-            <tr>
-                <td colspan="8">
-                    {routes}
-                </td>
-            </tr>
-        </table>
-        <br/>
+        <tr>
+            <td>{origin_airport}</td>
+            <td>{destination_airport}</td>
+            <td>EUR {price}</td>
+            <td>{total_nights}</td>
+            <td>{routes}</td>
+        </tr>
         """.format(
             origin_airport=flight.origin_airport,
             destination_airport=flight.destination_airport,
@@ -64,3 +53,47 @@ class EmailComposer:
         output_datetime_str = input_datetime.strftime(output_format)
 
         return output_datetime_str
+
+    TABLE_OPEN = """
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+        <meta charset="UTF-8">
+        <title>Flight Information</title>
+        <script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+        <style>
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            th, td {
+                border: 1px solid black;
+                padding: 8px;
+                text-align: left;
+            }
+            th {
+                background-color: #f2f2f2;
+            }
+        </style>
+        </head>
+        <body>
+        <h2>Flights</h2>
+        <table class="sortable">
+            <thead>
+                <tr>
+                    <th>Origin</th>
+                    <th>Destination</th>
+                    <th>Price</th>
+                    <th>Number of Nights</th>
+                    <th>Route</th>
+                </tr>
+            </thead>
+            <tbody>
+    """
+
+    TABLE_CLOSE = """
+            </tbody>
+        </table>
+        </body>
+        </html>
+    """
