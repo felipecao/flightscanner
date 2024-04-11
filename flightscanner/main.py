@@ -9,8 +9,10 @@ from flightscanner.sheety_client import SheetyClient
 
 load_dotenv()
 
-MIN_NIGHTS = 13
-MAX_NIGHTS = 28
+
+def to_datetime(date_string):
+    return datetime.strptime(date_string, "%Y-%m-%d")
+
 
 EARLIEST_DEPARTURE = datetime(2024, 7, 9)
 LATEST_DEPARTURE = datetime(2024, 8, 15)
@@ -27,10 +29,10 @@ for trip in trips:
         origin=trip["origin"],
         destination=trip["destination"],
         max_price=trip["maxPrice"],
-        earliest_departure=EARLIEST_DEPARTURE,
-        latest_departure=LATEST_DEPARTURE,
-        min_nights=MIN_NIGHTS,
-        max_nights=MAX_NIGHTS,
+        earliest_departure=to_datetime(trip["earliestDeparture"]),
+        latest_departure=to_datetime(trip["latestDeparture"]),
+        min_nights=trip["minNights"],
+        max_nights=trip["maxNights"],
     )
 
     email_contents = email_composer.write_table(cheapest_flights)
