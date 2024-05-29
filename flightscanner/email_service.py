@@ -11,7 +11,7 @@ class EmailService:
         self.EMAIL_APP_PWD = os.environ["EMAIL_APP_PWD"]
 
     def send_email(self, subject, body):
-        receiver_emails = [self.EMAIL_ACCOUNT, "thaisrbbcavalcanti@gmail.com"]
+        receiver_emails = [self.EMAIL_ACCOUNT]
 
         msg = MIMEMultipart("alternative")
         msg["Subject"] = subject
