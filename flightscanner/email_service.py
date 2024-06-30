@@ -10,13 +10,11 @@ class EmailService:
         self.EMAIL_ACCOUNT = os.environ["EMAIL_ACCOUNT"]
         self.EMAIL_APP_PWD = os.environ["EMAIL_APP_PWD"]
 
-    def send_email(self, subject, body):
-        receiver_emails = [self.EMAIL_ACCOUNT]
-
+    def send_email(self, subject, body, recipients):
         msg = MIMEMultipart("alternative")
         msg["Subject"] = subject
         msg["From"] = self.EMAIL_ACCOUNT
-        msg["To"] = ", ".join(receiver_emails)
+        msg["To"] = recipients
 
         # Attach HTML message
         html_part = MIMEText(body, "html")
@@ -25,4 +23,4 @@ class EmailService:
         with smtplib.SMTP("smtp.gmail.com") as connection:
             connection.starttls()
             connection.login(self.EMAIL_ACCOUNT, self.EMAIL_APP_PWD)
-            connection.sendmail(self.EMAIL_ACCOUNT, receiver_emails, msg.as_string())
+            connection.sendmail(self.EMAIL_ACCOUNT, recipients, msg.as_string())

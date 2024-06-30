@@ -13,7 +13,7 @@ class RouteLeg:
 class CompleteFlight:
     origin_airport: str
     destination_airport: str
-    price: str
+    price: int
     total_nights: int
     departure_at: str
     route: list[RouteLeg]

@@ -14,7 +14,7 @@ class EmailComposer:
     @staticmethod
     def _sort_flights(flights: list[CompleteFlight]) -> list[CompleteFlight]:
         return sorted(
-            flights, key=lambda flight: (len(flight.route), -flight.total_nights)
+            flights, key=lambda flight: flight.price
         )
 
     def _write_one_row(self, flight: CompleteFlight) -> str:

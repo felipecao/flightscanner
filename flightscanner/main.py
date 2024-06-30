@@ -36,8 +36,9 @@ for trip in trips:
     )
 
     email_contents = email_composer.write_table(cheapest_flights)
+    recipients = trip["emails"]
     # write_to_file("email.html", email_contents)
 
     email_service.send_email(
-        f"Flights from {trip['origin']} to {trip['destination']}", email_contents
+        f"Flights from {trip['origin']} to {trip['destination']}", email_contents, recipients
     )
