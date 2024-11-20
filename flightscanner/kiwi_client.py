@@ -35,7 +35,7 @@ class KiwiClient:
         }
 
         response = requests.get(url=endpoint, headers=headers, params=parameters).json()
-        flights = response["data"]
+        flights = response.get("data", [])
 
         return [self._map_complete_flight(x) for x in flights]
 
