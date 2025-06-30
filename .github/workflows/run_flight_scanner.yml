@@ -7,8 +7,8 @@ env:
   EMAIL_APP_PWD: ${{ secrets.EMAIL_APP_PWD }}
 
 on:
-   schedule:
-     - cron: '0 23 * * *' # every day at 23h
+   # schedule:
+     # - cron: '0 23 * * *' # every day at 23h
    workflow_dispatch:
     branches:
       - main
